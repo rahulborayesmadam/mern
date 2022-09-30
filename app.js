@@ -1,24 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
 import database from "./config/database.js";
+import Auth from "./routes/auth.js";
 
 const app = express();
 
 // !MiddleWares
-const middleware = (req, res, next) => {
-  console.log("middleware Running");
-  next();
-};
-
 dotenv.config();
 database();
 
 const port = process.env.PORT || 5060;
+app.use(express.json());
 
-app.get("/", middleware, (req, res) => {
-  console.log("Server Started");
-  res.send("Hello from the server");
-});
+// !Routes
+app.use("/api/", Auth);
 
 app.listen(port, () => {
   console.log(`Listening to port number ${port}`);
